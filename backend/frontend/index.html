@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    div{
+        width:13%;
+    }
+    </style>
+<body>
+    <h1>Add Product</h1>
+    <div>
+        <input type="number" id="id" placeholder="Id" />
+        <input type="text" id="name" placeholder="Name" />
+        <input type="number" id="price" placeholder="Price" />
+        <button onclick="addProduct()">Add Product</button>
+      </div>   
+
+    <h1>Delete Product</h1>   
+    <div>
+        <input type="number" id="product_id" placeholder="Id" />
+        <button onclick="deleteProduct()">Delete Product</button>                
+    </div>  
+
+    <h1>Update Product</h1>   
+    <div>
+        <input type="number" id="product_ID" placeholder="Id" />
+        <input type="text" id="Name" placeholder="Name" />
+        <input type="number" id="Price" placeholder="Price" />        
+        <button onclick="updateProduct()">Update Product</button>                
+    </div> 
+
+
+<script>
+
+async function addProduct(){//Adding Product
+    let data={
+    id:document.getElementById("id").value,
+    name:document.getElementById("name").value,
+    price:document.getElementById("price").value,
+    };
+
+    try{
+   let response=await fetch('http://localhost:5000/api/products',{
+    method:'POST',//adding product thats why method is POST
+    body:JSON.stringify(data),//data was not in json format
+    headers:{
+         "Content-Type":"application/json",
+        },
+   });
+
+   let Data= await response.json();
+   console.log(Data);
+
+   }
+   catch(e){
+       console.log(e);
+   }
+}
+
+
+
+async function deleteProduct(){//Deleting Product
+
+let id=document.getElementById("product_id").value;
+
+let reponse=await fetch(`http://localhost:5000/api/products/${id}`,{
+
+method:'DELETE', //We are going to delete the data saved. Thats why DELETE method
+headers:{
+    "Content-type":"application/json",
+}
+
+});
+
+}
+
+
+
+async function updateProduct(){//Updating Product
+
+let ID=document.getElementById("product_ID").value;
+
+    let dat={
+    id:ID,
+    name:document.getElementById("Name").value,
+    price:document.getElementById("Price").value,
+    };
+
+    try{
+   let response=await fetch(`http://localhost:5000/api/products/${ID}`,{
+    method:'PUT',//updating product thats why method is PUT
+    body:JSON.stringify(dat),//data was not in json format
+    headers:{
+         "Content-Type":"application/json",
+        },
+   });
+
+   let Dat= await response.json();
+   console.log(Dat);
+
+   }
+   catch(e){
+       console.log(e);
+   }
+}
+
+</script>    
+</body>
+</html>
